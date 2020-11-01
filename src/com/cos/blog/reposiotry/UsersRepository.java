@@ -25,9 +25,47 @@ public class UsersRepository {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 
+	public Users findByUsernameAndPassword(String username, String password) {
+		//패스워드는 꺼내지 않는다
+		final String SQL = "SELECT id, username, email, address, userProfile ,userRole, createDate FROM users WHERE username = ? AND password = ?";
+		//null
+		Users user = null;
+
+		try {
+			conn = DBConn.getConnection();
+			pstmt = conn.prepareStatement(SQL);
+			// 물음표 완성
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
+			// if 돌려서 rs-> java오브젝트에 집어넣기
+
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				//SELECT로 찾았다는건 
+				user = new Users();
+				user.setId(rs.getInt("id"));
+				user.setUsername(rs.getString("username"));
+				user.setEmail(rs.getString("email"));
+				user.setAddress(rs.getString("address"));
+				user.setUserProfile(rs.getString("userProfile"));
+				user.setUserRole(rs.getString("userRole"));
+			//user.setCreateDate(rs.getTimestamp("createDate"));
+			}
+			return user;
+		} catch (Exception e) {
+			e.printStackTrace();
+			// 오류나면 이 TAG로 찾아가면 된다.
+			System.out.println(TAG + "findByUsernameAndPassword : " + e.getMessage());
+		} finally {
+			DBConn.close(conn, pstmt, rs);
+		}
+		//로그인 실패
+		return null;
+	}
+
 	public int save(Users user) {
 					//유저 받아서 insert하면 끝
-					final String SQL = "INSERT IN TO USERS(id, username, password, email address ,userRole, createDate) VALUES(USERS_SEQ.nextval, ?,?,?,?,?,sysdate) ";
+					final String SQL = "INSERT INTO users(username, password, email, address ,userRole, createDate) VALUES(?, ?, ?, ?, ?,now()) ";
 			try {
 						conn = DBConn.getConnection();
 						pstmt = conn.prepareStatement(SQL);

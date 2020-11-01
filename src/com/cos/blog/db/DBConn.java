@@ -13,7 +13,7 @@ public class DBConn {
 				try {
 					Context initContext = new InitialContext();
 					Context envContext = (Context)initContext.lookup("java:/comp/env");
-					DataSource ds = (DataSource)envContext.lookup("jdbc/myoracle");
+					DataSource ds = (DataSource)envContext.lookup("jdbc/apple");
 					Connection conn = ds.getConnection();
 					System.out.println("DBConn : 데이터 베이스 연결 성공");
 					return conn;

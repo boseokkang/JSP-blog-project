@@ -21,4 +21,35 @@ public class Script {
 			e.printStackTrace();
 		}
 	}
+	
+	// 페이지 이동시 메시지 O
+	public static void href(String msg, String uri, HttpServletResponse response) {
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html;charset=UTF-8"); 
+			PrintWriter out = response.getWriter();
+			
+			out.println("<script>");
+			out.println("alert(' " + msg + " ');");
+			out.println("location.href='" + uri + "';");
+			out.println("</script>");	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+		
+		// 페이지 이동시 메시지 X
+		public static void href(String uri, HttpServletResponse response) {
+			try {
+				response.setCharacterEncoding("UTF-8");
+				response.setContentType("text/html;charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				
+				out.println("<script>");
+				out.println("location.href='" + uri + "';");
+				out.println("</script>");	
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
 }

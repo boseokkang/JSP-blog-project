@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -51,10 +52,20 @@ public class UsersLoginProcAction implements Action {
 					Users user = usersRepository.findByUsernameAndPassword(username, password);
 				
 							if (user !=  null) {
-						                     //로그인 성공
+						                 //로그인 성공
 										//session은 request가 들고있다.
 										HttpSession session = request.getSession();
 										
+										//6.1 로그인시 기억하기 체크관련 추가
+										if(request.getParameter("remember") != null) {
+													Cookie cookie = new Cookie("remember" , user.getUsername());
+										}else {
+													Cookie cookie =new Cookie("remember", null);
+													cookie.setMaxAge(0);
+													response.addCookie(cookie);
+										}
+										
+																				
 										// 인증 주체 = principal
 										//session의 principal에 저장
 										//유저 마다  Jsession의 아이디마다 principal이 어떤애인지 찾음

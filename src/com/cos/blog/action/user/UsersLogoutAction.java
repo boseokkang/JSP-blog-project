@@ -3,10 +3,14 @@ package com.cos.blog.action.user;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+
 
 import com.cos.blog.action.Action;
 import com.cos.blog.reposiotry.UsersRepository;
@@ -20,15 +24,25 @@ public class UsersLogoutAction implements Action {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-					HttpSession session = request.getSession();
-					//세션 무효화 되는 명령어
-					session.invalidate();
+				
+					String myCookie = request.getHeader("Cookie");
+					System.out.println("myCookie : " + myCookie);
 					
-					//세션을 날리기 싫으면 principal을 날린다. - 위의 명령어(invalidate)를 많이 사용함
-					//session.removeAttribute("principal"); 			
-					
-					//index.jsp 참고
-					Script.href("로그아웃 성공","index.jsp", response);
+					Cookie[] cookies = request.getCookies();
+					if (cookies != null ) {
+							for (Cookie cookie : cookies ) {
+								if ( cookie.getName().equals("remember")) {
+									request.setAttribute("remember", cookie.getValue());
+								}
+							}
+					}
+		
+		
+					RequestDispatcher dis = request.getRequestDispatcher("user/login.jsp");
+					dis.forward(request, response);	
+			
+
+
 		
 	}
 	

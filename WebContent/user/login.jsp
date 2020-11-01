@@ -14,9 +14,9 @@
 					class="was-validated">
 
 		<div class="form-group">
-					<label for="username">Username:</label> <input type="text" value="<%=remember %>"
+					<label for="username">Username:</label> <input type="text" value="${cookie.remember.value}"
 										class="form-control" id="username" placeholder="Enter username" 
-										name="username" required>
+										name="username" >
 					<div class="valid-feedback">Valid.</div>
 					<div class="invalid-feedback">Please fill out this field.</div>		
 		</div>

@@ -70,10 +70,12 @@ import com.cos.blog.action.user.UsersLoginProcAction;
 				}else if(cmd.equals("joinProc")) {
 					// 회원 가입 진행 한 후 -> index.jsp로 이동
 					return new UsersJoinProcAction();
+					
 				}else if(cmd.equals("update")) {
 					// 회원 수정 페이지로 이동 (세션에 User 오브젝트를 가지고 있을 예정)
 				}else if(cmd.equals("updateProc")) {
 					// 회원 수정을 진행 한 후 -> index.jsp로 이동
+					
 				}else if(cmd.equals("delete")) {
 					// 회원 삭제를 진행 한 후 -> 로그아웃을 하고(세션해지) -> index.jsp로 이동
 					// 실제론 회원 탈퇴했는지 안했는지 값을 0이나 1로 바꿔서 표기함

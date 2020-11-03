@@ -54,11 +54,15 @@ public class BoardRepository {
 	}
 
 	public int update(Board board) {
-					final String SQL = "";
+					final String SQL = "UPDATE board SET title=?, content=? WHERE id =?";
 					try {
 									conn = DBConn.getConnection();
 									pstmt = conn.prepareStatement(SQL);
 									// 물음표 완성
+									
+									pstmt.setString(1, board.getTitle());
+									pstmt.setString(2, board.getContent());
+									pstmt.setInt(3, board.getId());
 									return pstmt.executeUpdate();
 					} catch (Exception e) {
 									e.printStackTrace();
@@ -71,11 +75,15 @@ public class BoardRepository {
 	}
 
 	public int deleteById(int id) {
-					final String SQL = "";
+					System.out.println("BoardRepository : id : " + id);
+					final String SQL = "DELETE FROM board WHERE id=?";
+					
 					try {
 									conn = DBConn.getConnection();
 									pstmt = conn.prepareStatement(SQL);
 									// 물음표 완성
+									
+									pstmt.setInt(1, id);
 									return pstmt.executeUpdate();
 					} catch (Exception e) {
 									e.printStackTrace();

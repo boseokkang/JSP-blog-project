@@ -15,12 +15,12 @@ public class BoardWriteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		       				HttpSession session = request.getSession();
+		       			
+							HttpSession session = request.getSession();
 		       				if(session.getAttribute("principal") == null ) {
 		       							Script.getMessage("잘못된 접근입니다.", response);
 		       				} else {
-		       					RequestDispatcher dis =
-		       							request.getRequestDispatcher("board/write.jsp");
+		       					RequestDispatcher dis = request.getRequestDispatcher("board/write.jsp");
 		       					dis.forward(request, response);
 		       				}	
 	}

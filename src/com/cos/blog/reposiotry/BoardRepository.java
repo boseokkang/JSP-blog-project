@@ -30,7 +30,7 @@ public class BoardRepository {
 	private ResultSet rs = null;
 
 	public int save(Board board) {
-					final String SQL  = "INSERT INTO board(userId, title, content, readCount, createDate) VALUES(?, ?, ?, ?, now()";
+					final String SQL  = "INSERT INTO board(userId, title, content, readCount, createDate) VALUES(?, ?, ?, ?, now())";
 
 					try {
 									conn = DBConn.getConnection();
@@ -87,8 +87,8 @@ public class BoardRepository {
 	}
 
 	// 관리자를 위함
-	public List<Board> findAll() {
-					final String SQL = "";
+	public List<Board> findAll() { // 매개 변수가 필요없다. 어짜피 다 찾을 거니까
+					final String SQL = "SELECT * FROM board ORDER BY id DESC";
 					List<Board> boards = new ArrayList<>();
 			
 					try {
@@ -96,7 +96,23 @@ public class BoardRepository {
 									pstmt = conn.prepareStatement(SQL);
 									// 물음표 완성
 						
+									
 									// while 돌려서 rs-> java오브젝트에 집어넣기
+									rs = pstmt.executeQuery();
+									while (rs.next()) {
+										Board board = new Board(
+																	rs.getInt("id"),
+																	rs.getInt("userId"),
+																	rs.getString("title"),
+																	rs.getString("content"),
+																	rs.getInt("readCount"),
+																	rs.getTimestamp("createDate")
+										);
+										boards.add(board);			
+									}
+
+									
+									
 									return boards;
 					} catch (Exception e) {
 									e.printStackTrace();

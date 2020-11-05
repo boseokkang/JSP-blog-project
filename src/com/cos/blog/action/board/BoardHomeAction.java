@@ -14,6 +14,7 @@ import com.cos.blog.reposiotry.BoardRepository;
 import com.cos.blog.util.HtmlParser;
 
 
+
 public class BoardHomeAction implements Action {
 
 		@Override
@@ -24,11 +25,15 @@ public class BoardHomeAction implements Action {
 			      		BoardRepository boardRepository = 
 			      									BoardRepository.getInstance();
 			      		
+			      		//다 가져오기
+			      		List<Board> count = boardRepository.findAll();
+			    		int total = (count.size()/3);
+			    		System.out.println(total);
 			      		
-			      		List<Board> boards = boardRepository.findAll(page);
-			      		//본문 짧게 가공하기
+			    		List<Board> boards = boardRepository.findAll(page);
+			    		
 			      		for (Board board : boards) {			      			
-			      			String preview = HtmlParser.getContentPervivew(board.getContent());
+			      			String preview = HtmlParser.getContentPreview(board.getContent());
 			      			board.setContent(preview);
 			      		}
 			      		// 2. reqeust에 담아서		      

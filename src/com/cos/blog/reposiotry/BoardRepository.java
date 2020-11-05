@@ -9,6 +9,7 @@ import java.util.List;
 import com.cos.blog.db.DBConn;
 import com.cos.blog.dto.DetailResponseDto;
 import com.cos.blog.model.Board;
+import com.cos.blog.model.ReadCount;
 
 //== DAO 
 public class BoardRepository {
@@ -95,42 +96,130 @@ public class BoardRepository {
 					return -1;
 	}
 	
-	public List<Board> findAll(int page) { // 매개 변수가 필요없다. 어차피 다 찾을 거니까
-		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT /*+ INDEX_DESC(BOARD SYS_C007779)*/ id,");
-		sb.append("userId, title, content, readCount, createDate ");
-		sb.append("FROM board ");	
-		sb.append("LIMIT 3 OFFSET ?");
-				
-		final String SQL = sb.toString();				
-		List<Board> boards = new ArrayList<>();
-        
-		try {
-			conn = DBConn.getConnection();
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, page*3);
-			// while 돌려서 rs → java 오브젝트에 넣기 
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				Board board = new Board(
-						rs.getInt("id"),
-						rs.getInt("userId"),
-						rs.getString("title"),
-						rs.getString("content"),
-						rs.getInt("readCount"),
-						rs.getTimestamp("createDate")
-				);
-				boards.add(board);			
-			}
-
-			return boards;
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(TAG + "findAll(page) : " +e.getMessage());
-		} finally {
-			DBConn.close(conn, pstmt, rs);
+	public List<Board> findAll(String keyword) {
+				StringBuilder sb = new StringBuilder();
+		
+				sb.append("SELECT /*+ INDEX_DESC(BOARD SYS_C007922)*/id, ");
+				sb.append("userId, title, content, readCount, createDate ");
+				sb.append("FROM board ");
+				sb.append("WHERE title like ? OR content like ? ");
+		
+				final String SQL =sb.toString();
+				List<Board> boards = new ArrayList<>();
+		
+				try {
+								conn = DBConn.getConnection();
+								pstmt = conn.prepareStatement(SQL);
+					
+								pstmt.setString(1, "%"+keyword+"%");
+								pstmt.setString(2, "%"+keyword+"%");
+								//물음표 완성	
+								rs = pstmt.executeQuery();
+								//while 돌려서 rs-> java오브젝트에 집어넣기
+								while(rs.next()) {
+												Board board = new Board(
+														rs.getInt("id"),
+														rs.getInt("userId"),
+														rs.getString("title"),
+														rs.getString("content"),
+														rs.getInt("readCount"),
+														rs.getTimestamp("createDate")
+									);
+									boards.add(board);	
+								}
+								return boards;
+				} catch (Exception e) {
+							e.printStackTrace();
+							//오류나면 이 TAG로 찾아가면 된다.
+							System.out.println(TAG + "findAll : KEYWORD : "+e.getMessage());
+				} finally {
+							DBConn.close(conn, pstmt, rs);
+				}
+				return null;
 		}
-		return null;
+
+
+	public List<Board> findAll(int page, String keyword) {
+				StringBuilder sb = new StringBuilder();
+		
+				sb.append("SELECT /*+ INDEX_DESC(BOARD SYS_C007922)*/id, ");
+				sb.append("userId, title, content, readCount, createDate ");
+				sb.append("FROM board ");
+				//여기에다가 like 쓴다고 %쓰면 안먹음
+				sb.append("WHERE title like ? OR content like ? ");
+				sb.append("LIMIT 3 OFFSET ?");
+		
+				final String SQL =sb.toString();
+				List<Board> boards = new ArrayList<>();
+		
+				try {
+								conn = DBConn.getConnection();
+								pstmt = conn.prepareStatement(SQL);
+					
+								pstmt.setString(1, "%"+keyword+"%");
+								pstmt.setString(2, "%"+keyword+"%");
+								pstmt.setInt(3, page*3);
+								//물음표 완성	
+								rs = pstmt.executeQuery();
+								//while 돌려서 rs-> java오브젝트에 집어넣기
+								while(rs.next()) {
+										Board board = new Board(
+														rs.getInt("id"),
+														rs.getInt("userId"),
+														rs.getString("title"),
+														rs.getString("content"),
+														rs.getInt("readCount"),
+														rs.getTimestamp("createDate")
+										);
+										boards.add(board);	
+								}
+								return boards;
+				} catch (Exception e) {
+							   e.printStackTrace();
+							   //오류나면 이 TAG로 찾아가면 된다.
+							   System.out.println(TAG + "findAll : PAGE,KEYWORD : "+e.getMessage());
+				} finally {
+								DBConn.close(conn, pstmt, rs);
+				}
+				return null;
+	}
+
+	public List<Board> findAll(int page) { // 매개 변수가 필요없다. 어차피 다 찾을 거니까
+				StringBuilder sb = new StringBuilder();
+				sb.append("SELECT /*+ INDEX_DESC(BOARD SYS_C007779)*/ id,");
+				sb.append("userId, title, content, readCount, createDate ");
+				sb.append("FROM board ");	
+				sb.append("LIMIT 3 OFFSET ?");
+						
+				final String SQL = sb.toString();				
+				List<Board> boards = new ArrayList<>();
+		        
+				try {
+								conn = DBConn.getConnection();
+								pstmt = conn.prepareStatement(SQL);
+								pstmt.setInt(1, page*3);
+								// while 돌려서 rs → java 오브젝트에 넣기 
+								rs = pstmt.executeQuery();
+								while (rs.next()) {
+												Board board = new Board(
+														rs.getInt("id"),
+														rs.getInt("userId"),
+														rs.getString("title"),
+														rs.getString("content"),
+														rs.getInt("readCount"),
+														rs.getTimestamp("createDate")
+									);
+									boards.add(board);			
+					}
+		
+					return boards;
+				} catch (Exception e) {
+								e.printStackTrace();
+								System.out.println(TAG + "findAll(page) : " +e.getMessage());
+				} finally {
+								DBConn.close(conn, pstmt, rs);
+				}
+				return null;
 	}
 
 	// 관리자를 위함
@@ -206,4 +295,81 @@ public class BoardRepository {
 					}
 					return null;
 	}
+	
+	//쿠키값 검사
+	public ReadCount checkCookie(int id, String jSessionId) {
+					StringBuilder sb = new StringBuilder();
+					sb.append("SELECT * ");
+					sb.append("FROM readCount INNER JOIN board ");
+					sb.append("ON readcount.boardid = board.id ");
+					sb.append("WHERE board.id = ? AND readCount.cookie = ?");
+					final String SQL = sb.toString();
+			
+					ReadCount rc = null;
+					try {
+							conn = DBConn.getConnection();
+							pstmt = conn.prepareStatement(SQL);
+							//물음표 완성	
+							pstmt.setInt(1, id);
+							pstmt.setString(2, jSessionId);
+							rs = pstmt.executeQuery();
+							// if 돌려서 re->java 오브젝트에 집어 넣기
+							if(rs.next()) {
+										rc = ReadCount.builder()
+													.id(id)
+													.boardId(rs.getInt("boardId"))
+													.cookie(jSessionId)
+													.timestamp(rs.getTimestamp("createDate"))
+													.build();
+							}
+							return rc;
+					} catch (Exception e) {
+							e.printStackTrace();
+							//오류나면 이 TAG로 찾아가면 된다.
+							System.out.println(TAG + "checkCookie : "+e.getMessage());
+					} finally {
+							DBConn.close(conn, pstmt, rs);
+					}
+					return null;
+	}
+
+	public int saveCookie(int id, String jSessionId) {
+					final String SQL ="INSERT INTO readCount(id, boardId, cookie, createDate) "
+										+ "VALUES(READCOUNT_SEQ.nextval,?,?,sysdate)";
+					try {
+								conn = DBConn.getConnection();
+								pstmt = conn.prepareStatement(SQL);
+								pstmt.setInt(1, id);
+								pstmt.setString(2, jSessionId);
+								//물음표 완성	
+								return pstmt.executeUpdate();
+					} catch (Exception e) {
+								e.printStackTrace();
+								//오류나면 이 TAG로 찾아가면 된다.
+								System.out.println(TAG + "saveCookie : "+e.getMessage());
+					} finally {
+								DBConn.close(conn, pstmt);
+					}
+					return -1;
+				}
+	
+	public int updateReadCount(int id) {
+				final String SQL ="UPDATE BOARD SET READCOUNT = READCOUNT +1 WHERE id =?";
+				try {
+							conn = DBConn.getConnection();
+							pstmt = conn.prepareStatement(SQL);
+							//물음표 완성	
+							pstmt.setInt(1, id);
+					
+							return pstmt.executeUpdate();
+				} catch (Exception e) {
+							e.printStackTrace();
+							//오류나면 이 TAG로 찾아가면 된다.
+							System.out.println(TAG + "update : "+e.getMessage());
+				} finally {
+							DBConn.close(conn, pstmt);
+				}
+				return -1;
+	}
+
 }

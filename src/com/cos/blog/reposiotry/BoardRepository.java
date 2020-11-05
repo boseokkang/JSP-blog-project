@@ -335,7 +335,7 @@ public class BoardRepository {
 
 	public int saveCookie(int id, String jSessionId) {
 					final String SQL ="INSERT INTO readCount(id, boardId, cookie, createDate) "
-										+ "VALUES(READCOUNT_SEQ.nextval,?,?,sysdate)";
+										+ "VALUES(?,?,sysdate)";
 					try {
 								conn = DBConn.getConnection();
 								pstmt = conn.prepareStatement(SQL);

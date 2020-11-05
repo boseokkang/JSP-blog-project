@@ -110,6 +110,26 @@ public class UsersRepository {
 							}
 			return -1;
 	}
+	
+	public int update(int id, String userProfile) {
+		final String SQL ="UPDATE users SET userprofile = ? WHERE id = ? ";
+		
+		try {
+						conn = DBConn.getConnection();
+						pstmt = conn.prepareStatement(SQL);
+						//물음표 완성	
+						pstmt.setString(1, userProfile);
+						pstmt.setInt(2, id);					
+						return pstmt.executeUpdate();
+		} catch (Exception e) {
+						e.printStackTrace();
+						//오류나면 이 TAG로 찾아가면 된다.
+						System.out.println(TAG + "update (id,userProfile): "+e.getMessage());
+		} finally {
+						DBConn.close(conn, pstmt);
+		}
+		return -1;
+}
 	public int update(Users user) {
 							final String SQL ="UPDATE users SET password=?, email=?, address=? WHERE id=?";
 							
@@ -191,6 +211,7 @@ public class UsersRepository {
 														.username(rs.getString("username"))
 														.email(rs.getString("email"))
 														.address(rs.getString("address"))
+														.userProfile(rs.getString("userprofile"))
 														.createDate(rs.getTimestamp("createDate"))
 														.build();				
 											}

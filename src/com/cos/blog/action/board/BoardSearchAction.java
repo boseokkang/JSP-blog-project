@@ -7,6 +7,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cos.blog.action.Action;
 import com.cos.blog.model.Board;
@@ -30,17 +31,16 @@ public class BoardSearchAction implements Action{
 					}
 						
 					int page = Integer.parseInt(request.getParameter("page"));
-					String Keyword = request.getParameter("keyword");
+					String keyword = request.getParameter("keyword");
 					
 					//1. DB연결해서 Board목록 다 불러오기
 					BoardRepository boardRepository =
 										BoardRepository.getInstance();
 					// 다 가져오기
-					List<Board> count = boardRepository.findAll(Keyword);
+					List<Board> count = boardRepository.findAll(keyword);
 					int total = (count.size()/3);
-					System.out.println(total);
-					
-					List<Board> boards = boardRepository.findAll(page, Keyword);
+					System.out.println(total);					
+					List<Board> boards = boardRepository.findAll(page, keyword);
 					
 					for (Board board : boards) {	
 								String preview = HtmlParser.getContentPreview(board.getContent());
@@ -51,6 +51,10 @@ public class BoardSearchAction implements Action{
 					request.setAttribute("boards", boards);
 
 					request.setAttribute("total", total);
+					
+					HttpSession session = request.getSession();
+					session.setAttribute("backPage", page);
+					session.setAttribute("backKeyword", keyword);
 					//3. 이동 home.jsp
 					RequestDispatcher dis = request.getRequestDispatcher("home.jsp");
 					dis.forward(request, response);	

@@ -17,7 +17,12 @@
 				</div>
 			</div>
 </c:forEach>
+<br/>
 
+<ul class="pagination justify-content-center">
+	  <li class="page-item"><a class="page-link" href="/blog/board?cmd=home&page=${param.page-1}">Previous</a></li>
+	  <li class="page-item"><a class="page-link" href="/blog/board?cmd=home&page=${param.page+1}">Next</a></li>
+	</ul>
 </div>
 
 <%@ include file="include/footer.jsp"%>

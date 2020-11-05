@@ -13,7 +13,7 @@ alter user cos default tablespace users quota unlimited on users;
 ```
 
 ## 테이블
-```sql
+```Mysql   
 CREATE TABLE users(
 	id int primary key,
     username varchar(100) not null unique,
@@ -52,6 +52,12 @@ CREATE TABLE reply(
 
 
 ## 페이징 쿼리
-```sql
-
+```My sql
+		SELECT /*+ INDEX_DESC(BOARD SYS_C007779)*/ id, userId, title, content, readCount, createDate 
+		FROM board 	
+		LIMIT 3 OFFSET ? ;
 ```
+```Oracle
+		SELECT /*+ INDEX_DESC(BOARD SYS_C007779)*/ id, userId, title, content, readCount, createDate 
+		FROM board
+		OFFSET 0 ROWS FETCH NEXT 3 ROWS ONLY;

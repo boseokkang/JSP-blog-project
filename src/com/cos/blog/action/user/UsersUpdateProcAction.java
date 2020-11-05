@@ -2,17 +2,15 @@ package com.cos.blog.action.user;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cos.blog.action.Action;
-import com.cos.blog.model.Board;
 import com.cos.blog.model.Users;
-import com.cos.blog.reposiotry.BoardRepository;
 import com.cos.blog.reposiotry.UsersRepository;
+import com.cos.blog.util.SHA256;
 import com.cos.blog.util.Script;
 
 public class UsersUpdateProcAction implements Action{
@@ -45,7 +43,8 @@ public class UsersUpdateProcAction implements Action{
 						
 						// 2번 - request에 title값과 content값 받기
 						int id = Integer.parseInt(request.getParameter("id"));
-						String password= request.getParameter("password");
+						String rawPassword = request.getParameter("password");
+						String password = SHA256.encodeSha256(rawPassword);
 						String email= request.getParameter("email");
 						String address= request.getParameter("address");
 

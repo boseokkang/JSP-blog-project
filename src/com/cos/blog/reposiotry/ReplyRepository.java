@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cos.blog.db.DBConn;
-import com.cos.blog.model.Board;
 import com.cos.blog.model.Reply;
 
 //== DAO 

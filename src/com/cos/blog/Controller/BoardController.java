@@ -16,7 +16,6 @@ import com.cos.blog.action.board.BoardUpdateAction;
 import com.cos.blog.action.board.BoardUpdateProcAction;
 import com.cos.blog.action.board.BoardWriteAction;
 import com.cos.blog.action.board.BoardWriteProcAction;
-import com.cos.blog.action.user.UsersJoinAction;
 
 		/**
 		 * Servlet implementation class UsersController

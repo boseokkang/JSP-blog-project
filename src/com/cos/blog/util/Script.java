@@ -50,8 +50,8 @@ public class Script {
 			PrintWriter out = response.getWriter();
 
 			out.println("<script>");
-			out.println("alert(' " + msg + " ');");
-			out.println("histroy.back();");
+			out.println("alert(' " + msg + " ');");			
+			out.println("history.back();");
 			out.println("</script>");
 
 		} catch (Exception e) {

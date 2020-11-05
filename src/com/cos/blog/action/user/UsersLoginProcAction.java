@@ -2,7 +2,6 @@ package com.cos.blog.action.user;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -10,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cos.blog.action.Action;
-import com.cos.blog.model.RoleType;
 import com.cos.blog.model.Users;
 import com.cos.blog.reposiotry.UsersRepository;
+import com.cos.blog.util.SHA256;
 import com.cos.blog.util.Script;
 
 
@@ -43,7 +42,8 @@ public class UsersLoginProcAction implements Action {
 		 				// frontend에서 아무리 막아도 Postman 등으로 공격하면 뚫림
 		 				// 그래서 서버에서 검사를 한다.
 						String username = request.getParameter("username");
-						String password = request.getParameter("password");
+						String rawPassword = request.getParameter("password");
+						String password = SHA256.encodeSha256(rawPassword);
 	
 
 						// 2. DB연결 - UsersRepository의 findByUsernameAndPassword() 호출				
@@ -77,7 +77,7 @@ public class UsersLoginProcAction implements Action {
 										//자기만의 principal이 된다.
 										//session.setAttribute("principal", user);
 													
-										Script.href("로그인에 성공! ", "/blog/board?cmd=home", response);
+										Script.href("로그인에 성공! ", "/blog/index.jsp", response);
 					
 							} else {
 										//로그인 실패

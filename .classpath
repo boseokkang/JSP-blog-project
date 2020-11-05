@@ -23,5 +23,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-5.1.47.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucy-xss-1.6.3.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucy-xss-servlet-2.0.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

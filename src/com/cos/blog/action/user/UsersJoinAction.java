@@ -16,7 +16,7 @@ public class UsersJoinAction implements Action {
 	
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 회원가입 페이지로 이동하는 action 
-		RequestDispatcher dis = request.getRequestDispatcher("user/join.jsp");
+		RequestDispatcher dis = request.getRequestDispatcher("/user/join.jsp");
 		dis.forward(request, response);
 		System.out.println("아 망함");
 	}

@@ -53,7 +53,7 @@ public class BoardController extends HttpServlet {
 					throws ServletException, IOException {
 				// Get과 Post에서 어떤 요청이 오든 이쪽으로 온다.
 				// doProcess(request, response);
-		System.out.println("도착함1");
+				System.out.println("도착함1");
 				// http://localhost:/8000/blog/user?cmd=join
 				// 쿼리스트림(?)으로 분기를 나눈다
 				String cmd = request.getParameter("cmd");

@@ -37,6 +37,7 @@ public class Script {
 			response.setContentType("text/html;charset=UTF-8");  
 			PrintWriter out = response.getWriter();
 			
+			out.println("<h1>" +msg + "</h1>");
 			System.out.println("<h1>" +msg + "</h1>");
 		} catch (Exception e) {
 			e.printStackTrace();

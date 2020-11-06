@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <web-app version="3.1"
  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee                       http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee                      
+	 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 	
 	<description>MySQL Test App</description>
 	<resource-ref>
@@ -12,18 +14,20 @@
 		<res-auth>Container</res-auth>
 	</resource-ref>
 	
+
 		<filter>
-		<filter-name>setCharacterEncodingFilter</filter-name>
-		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>utf-8</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>setCharacterEncodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+<filter-name>encodingFilter</filter-name>
+<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+<init-param>
+	<param-name>encoding</param-name>
+	<param-value>utf-8</param-value>
+</init-param>   
+</filter>
+
+<filter-mapping>
+	<filter-name>encodingFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
 
 	<filter>
 		<filter-name>xssEscapeServletFilter</filter-name>

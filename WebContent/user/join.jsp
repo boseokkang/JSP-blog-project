@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ include file = "../include/nav.jsp" %>
 
@@ -10,8 +9,7 @@
 	  <div class="form-group">
 	    <label for="username">Username:</label>
 	    <button type="button" class="btn btn-warning float-right" onClick="usernmaeCheck();">중복 확인</button>
-	    <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
-	    <div class="valid-feedback">Valid.</div>
+	    <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>	    
 	    <div class="invalid-feedback">Please fill out this field.</div>
 	  </div>
 

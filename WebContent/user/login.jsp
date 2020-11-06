@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/nav.jsp"%>
 
-<% 
-			String remember = (String) request.getAttribute("remember") ;
-        
-			if (remember == null) {
-					remember = "" ;
-          }
-%>
 
 <div class="container">
 	<form action="/blog/user?cmd=loginProc" method="POST" 

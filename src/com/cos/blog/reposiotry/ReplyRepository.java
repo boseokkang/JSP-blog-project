@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.cos.blog.db.DBConn;
 import com.cos.blog.dto.ReplyResponseDto;
-import com.cos.blog.dto.ResponseDto;
 import com.cos.blog.model.Reply;
 
 //== DAO 

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cos.blog.action.Action;
 import com.cos.blog.dto.BoardResponseDto;
-import com.cos.blog.dto.DetailResponseDto;
 import com.cos.blog.reposiotry.BoardRepository;
 import com.cos.blog.util.Script;
 

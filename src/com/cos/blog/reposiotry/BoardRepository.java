@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.cos.blog.db.DBConn;
 import com.cos.blog.dto.BoardResponseDto;
-import com.cos.blog.dto.DetailResponseDto;
 import com.cos.blog.model.Board;
 import com.cos.blog.model.ReadCount;
 
